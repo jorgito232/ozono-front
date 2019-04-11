@@ -1,0 +1,103 @@
+body{
+  overflow: hidden;
+}
+
+#contenedor{
+  display: flex;
+  flex-direction: row;
+}
+
+#image{
+  background: url('../images/casco.jpg');
+  background-size: cover;
+  background-position: center;
+  font-size: 20vh;
+}
+
+#image:before{
+  content: "";
+  width: 70vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.3); 
+}
+
+#image span{
+  width: 70vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+#formulario{
+  background: #212121;
+  width: 30vw;
+  height: 100vh;
+}
+
+#formularioCampos{
+  width: 30vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#logo{
+  width: 20vw;
+  height: 20vh;
+  margin-bottom: 2vh;
+  background: url('../images/logo.png');
+  background-size: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+input{
+  width: 20vw;
+  height: 5vh;
+  margin-bottom: 2vh;
+  border-radius: 5px; 
+  padding-left: 10px;
+  border: none;
+}
+
+input:focus{
+  outline: 0;
+}
+
+#control{
+  width: 35vw;
+  height: 5vh;
+  padding: 0 5vw;
+  display: flex;
+  justify-content: center;  
+}
+
+#control button{
+  width: 30vw;
+  height: 5vh;
+  border: none;
+  background: #0277BD;
+  border-radius: 5px; 
+  color: white;
+  padding: 0 3vw;
+  margin: 0 0.5vw; 
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+a{
+  width: 10vw;
+  height: 5vh;
+  text-decoration: none;
+  color: white;
+  margin: 0 2vw;
+}
