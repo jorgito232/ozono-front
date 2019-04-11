@@ -4,7 +4,8 @@ import client from '../utils/Client'
 import { ApolloProvider } from 'react-apollo'
 import { BrowserRouter, Route } from 'react-router-dom'
 
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 import Login from './Login'
 import SearchService from './SearchService'

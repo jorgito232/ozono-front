@@ -10,6 +10,12 @@ mutation CreateUser($name:String!,$lastName:String!,$email:String!,$password:Str
   CreateUser(data:{name:$name, lastName:$lastName, email:$email, password:$password})
 }`
 
+const LOGIN_USER = gql`
+query LOGIN($email:String!,$password:String!){
+  Login(email:$email, password:$password)
+}`
+
+
 export default function CreateUser(props) {
 
   const name = useFormInput('')
@@ -35,7 +41,16 @@ export default function CreateUser(props) {
       .mutate({ mutation: CREATE_USER, variables: { name: name.value, lastName: lastName.value, email: email.value, password: password.value } })
       .then(result => {
         if (result.data.CreateUser) {
-          window.location.replace('/user')
+          props.client
+            .query({ query: LOGIN_USER, variables: { email: email.value, password: password.value } })
+            .then(result => {
+              if (result.data.Login) {
+                localStorage.setItem('token', result)
+                window.location.replace('/user')
+              } else {
+                alert('Error')
+              }
+            })
         } else {
           alert('Error')
         }
@@ -60,15 +75,15 @@ export default function CreateUser(props) {
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">Last name:</label>
-                <input type="text" class="form-control" id="recipient-name" {...lastName}/>
+                <input type="text" class="form-control" id="recipient-name" {...lastName} />
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">Email:</label>
-                <input type="email" class="form-control" id="recipient-name" {...email}/>
+                <input type="email" class="form-control" id="recipient-name" {...email} />
               </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">Password:</label>
-                <input type="password" class="form-control" id="recipient-name" {...password}/>
+                <input type="password" class="form-control" id="recipient-name" {...password} />
               </div>
             </form>
           </div>

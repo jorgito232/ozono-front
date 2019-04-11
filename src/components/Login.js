@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-
 import gql from 'graphql-tag'
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
-
 import LoginStyle from '../styles/login.css'
 
 import CreateUser from './CreateUser'
@@ -38,7 +33,7 @@ export default function Login(props) {
   return (<div>
     <div id="contenedor">
       <div id="image">
-        <span>Ozono</span>
+        <span>ServiceApp</span>
       </div>
       <div id="formulario">
         <form id="formularioCampos" onSubmit={handleSubmit}>
