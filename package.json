@@ -7,6 +7,7 @@
     "apollo-boost": "^0.3.1",
     "apollo-link-context": "^1.0.17",
     "bootstrap": "^4.3.1",
+    "chart.js": "^2.8.0",
     "graphql": "^14.2.1",
     "graphql-tag": "^2.10.1",
     "jquery": "^3.4.0",
@@ -16,7 +17,8 @@
     "react-content-loader": "^4.2.1",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8"
+    "react-scripts": "2.1.8",
+    "recharts": "^1.5.0"
   },
   "scripts": {
     "start": "react-scripts start",

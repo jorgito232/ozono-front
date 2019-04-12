@@ -6,15 +6,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 const CREATE_SERVICE = gql`
-mutation CreateService($user:ID!,$description:String!,$price:String!,$atendend:ID,$type:ServiceType!){
-  CreateService(data:{user:$user, description:$description, atendend:$atendend, price:$price, type:$type})
+mutation CreateService($user:ID!,$description:String!,$price:String!,$type:ServiceType!){
+  CreateService(data:{user:$user, description:$description, price:$price, type:$type})
 }`
 
-export default function CreateService(props) {
+export default function CreateServiceUser(props) {
 
-  const user = useFormInput('')
+  const user = useFormInput(props.user)
   const description = useFormInput('')
-  const atendend = useFormInput('')
   const price = useFormInput('')
   const type = useFormInput('DELIVERY')
 
@@ -33,7 +32,7 @@ export default function CreateService(props) {
 
   function handleSubmit() {
     props.client
-      .mutate({ mutation: CREATE_SERVICE, variables: { user: user.value, description: description.value, price: price.value, atendend: (atendend.value) ? atendend.value : null, type: type.value } })
+      .mutate({ mutation: CREATE_SERVICE, variables: { user: user.value, description: description.value, price: price.value, type: type.value } })
       .then(result => {
         if (result.data.CreateService) {
           window.location.reload();
@@ -55,20 +54,6 @@ export default function CreateService(props) {
           </div>
           <div class="modal-body">
             <form>
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label">User:</label>
-                <select class="form-control" id="exampleFormControlSelect1" {...user}>
-                <option>Select</option>
-                { (props.users) ? props.users.map((user) => (user.type == "USER") ? <option value= {user._id}>{user.email}</option> : "") : ""}
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label">Atendend:</label>
-                <select class="form-control" id="exampleFormControlSelect1" {...atendend}>
-                <option>Select</option>
-                {props.users.map((user) => (user.type != "USER") ? <option value= {user._id}>{user.email}</option> : "")}
-                </select>
-              </div>
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">Description:</label>
                 <input type="text" class="form-control" id="recipient-name" {...description} />

@@ -7,7 +7,16 @@ import CreateUser from './CreateUser'
 
 const LOGIN_USER = gql`
 query LOGIN($email:String!,$password:String!){
-  Login(email:$email, password:$password)
+  Login(email:$email, password:$password){
+    token
+    user{
+      _id
+      name
+      lastName
+      email
+      type
+    }
+  }
 }
 `
 
@@ -15,6 +24,7 @@ export default function Login(props) {
 
   const email = useFormInput('')
   const password = useFormInput('')
+  const [user, setUser] = useState('')
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -22,10 +32,19 @@ export default function Login(props) {
       .query({ query: LOGIN_USER, variables: { email: email.value, password: password.value } })
       .then(result => {
         if (result.data.Login) {
-          localStorage.setItem('token', result)
-          window.location.replace('/user')
+          const resultAux = result.data.Login;
+          console.log(result)
+          if (resultAux.token) {
+            localStorage.setItem('token', JSON.stringify(resultAux.token));
+            localStorage.setItem('user', JSON.stringify(resultAux.user));
+            if (resultAux.user.type == "ADMIN") {
+              window.location.replace('/service')
+            } else {
+              window.location.replace('/user')
+            }
+          }
         } else {
-          alert('Error')
+          alert('Email or password incorrect')
         }
       })
   }
@@ -33,16 +52,13 @@ export default function Login(props) {
   return (<div>
     <div id="contenedor">
       <div id="image">
-        <span>ServiceApp</span>
+        <span></span>
       </div>
       <div id="formulario">
         <form id="formularioCampos" onSubmit={handleSubmit}>
-
           <div id="logo" />
           <input type="email" placeholder="Enter email" required="true" {...email} />
-
           <input type="password" id="exampleInputPassword1" required="true" placeholder="Enter password" {...password} />
-
           <div id="control">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Sign up</button>
             <button class="btn btn-primary" type="submit">Login</button>
@@ -50,7 +66,7 @@ export default function Login(props) {
         </form>
       </div>
     </div>
-    <CreateUser client={props.client}/>
+    <CreateUser client={props.client} />
   </div>
   )
 

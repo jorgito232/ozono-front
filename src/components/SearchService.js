@@ -8,6 +8,8 @@ import gql from 'graphql-tag'
 
 import Service from './ServiceComponent'
 
+import CreateService from './CreateService'
+
 const SEARCH_SERVICE = gql`
 query{
   Services{
@@ -20,36 +22,38 @@ query{
     price
     type
     dateStart
+    dateEnd
   }
 }
 `
 
-const MyLoader = () => (
-  <ContentLoader
-    height={120}
-    width={400}
-    speed={2}
-    primaryColor="#f3f3f3"
-    secondaryColor="#ecebeb"
-  >
-    <rect x="0" y="15" rx="4" ry="4" width="117" height="6" />
-    <rect x="0" y="35" rx="3" ry="3" width="85" height="6" />
-    <rect x="0" y="80" rx="3" ry="3" width="350" height="6" />
-    <rect x="0" y="100" rx="3" ry="3" width="380" height="6" />
-    <rect x="0" y="120" rx="3" ry="3" width="201" height="6" />
-  </ContentLoader>
-)
+const SEARCH_USER = gql`
+query{
+  Users{
+    _id
+    email
+    type
+  }
+}`
 
 export default class SearchService extends Component {
   constructor(props) {
     super(props)
+    const token = JSON.parse(localStorage.getItem('token'));
+    if (!token) {
+      window.location.replace('/');
+    }
 
     this.state = {
-      services: []
+      services: [],
+      users: []
     }
   }
 
+
   componentDidMount() {
+
+
     this.props.client
       .query({ query: SEARCH_SERVICE })
       .then(result => {
@@ -58,18 +62,36 @@ export default class SearchService extends Component {
         } else {
           alert('Error')
         }
+      });
+
+    this.props.client
+      .query({ query: SEARCH_USER })
+      .then(result => {
+        if (result.data.Users) {
+          this.setState({ users: result.data.Users })
+        } else {
+          alert('Error')
+        }
       })
+
+  }
+
+  logOut = () => {
+    localStorage.removeItem('token');
+    window.location.replace('/');
   }
 
 
   render() {
-    return (<div>
-      <button id="flotante"></button>
-      <div className="container">
-        <div className="row">
-          {this.state.services.map((serviceAux) => <Service service={serviceAux}/>)}
-        </div>
+    return (<div className="orden">
+      <nav class="navbar  fixed-top">
+        <a href="#" class="navbar-brand mb-0 h1" onClick={this.logOut}>ServiceApp</a>
+      </nav>
+      <button id="flotante" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">+</button>
+      <div className="container" id="content">
+        {this.state.services.map((serviceAux) => (!serviceAux.dateEnd) ? <Service client={this.props.client} service={serviceAux} /> : "")}
       </div>
+      <CreateService client={this.props.client} users={this.state.users} />
     </div >)
   }
 

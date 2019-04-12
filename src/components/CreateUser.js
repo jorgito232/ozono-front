@@ -12,7 +12,16 @@ mutation CreateUser($name:String!,$lastName:String!,$email:String!,$password:Str
 
 const LOGIN_USER = gql`
 query LOGIN($email:String!,$password:String!){
-  Login(email:$email, password:$password)
+  Login(email:$email, password:$password){
+    token
+    user{
+      _id
+      name
+      lastName
+      email
+      type
+    }
+  }
 }`
 
 
@@ -45,10 +54,19 @@ export default function CreateUser(props) {
             .query({ query: LOGIN_USER, variables: { email: email.value, password: password.value } })
             .then(result => {
               if (result.data.Login) {
-                localStorage.setItem('token', result)
-                window.location.replace('/user')
+                const resultAux = result.data.Login;
+                console.log(result)
+                if (resultAux.token) {
+                  localStorage.setItem('token', JSON.stringify(resultAux.token));
+                  localStorage.setItem('user', JSON.stringify(resultAux.user));
+                  if (resultAux.user.type == "ADMIN") {
+                    window.location.replace('/service')
+                  } else {
+                    window.location.replace('/user')
+                  }
+                }
               } else {
-                alert('Error')
+                alert('Email or password incorrect')
               }
             })
         } else {
@@ -68,7 +86,7 @@ export default function CreateUser(props) {
             </button>
           </div>
           <div class="modal-body">
-            <form>
+            <form autoComplete="false">
               <div class="form-group">
                 <label for="recipient-name" class="col-form-label">Name:</label>
                 <input type="text" class="form-control" id="recipient-name" {...name} />

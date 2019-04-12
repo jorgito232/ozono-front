@@ -1,18 +1,45 @@
-Service.body{
-  overflow: scroll;
+body{
+	overflow-y: scroll;
 }
+
+#content{
+	padding: 5vh 1vw;
+	margin-top: 4vh;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+}
+
+.jumbotron{
+	margin-top: 4vh;
+}
+
+.card{
+	margin: 1vh 1vw;
+}
+
+.navbar, .navbar-brand{
+	background-color: #212121;
+	color: #ffc107;
+}
+
 #flotante{
   position:fixed;
 	width:60px;
 	height:60px;
 	bottom:40px;
 	right:40px;
-	background-color:#0C9;
-	color:#FFF;
+	background-color:#ffc107;
+	color:black;
 	border-radius:50px;
-  text-align:center;
+	display: flex;
+	justify-content: center;
+	font-style: oblique;
   border: none;
 	box-shadow: 2px 2px 3px #999;
+	font-size: 2em;
+	z-index: 100;
 }
 
 #flotante:focus{
