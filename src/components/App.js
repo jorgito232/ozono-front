@@ -12,6 +12,9 @@ import SearchService from './SearchService'
 import SearchUser from './SearchUser'
 
 class App extends Component {
+  componentDidMount(){
+    document.title = 'ServiceApp'
+  }
   render() {
     return (
       <BrowserRouter>
